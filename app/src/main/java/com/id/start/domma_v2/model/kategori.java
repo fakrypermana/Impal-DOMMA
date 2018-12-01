@@ -1,27 +1,37 @@
 package com.id.start.domma_v2.model;
 
 public class kategori {
-    String namaKategori;
-    int tipeKategori;
+    private int id;
+    private String nama;
+    private int tipe;
 
-    public kategori(String namaKategori, int tipeKategori) {
-        this.namaKategori = namaKategori;
-        this.tipeKategori = tipeKategori;
+    public kategori(int id, String nama, int tipe) {
+        this.id = id;
+        this.nama = nama;
+        this.tipe = tipe;
     }
 
-    public String getNamaKategori() {
-        return namaKategori;
+    public int getId() {
+        return id;
     }
 
-    public void setNamaKategori(String namaKategori) {
-        this.namaKategori = namaKategori;
+    public void setId(int id) {
+        this.id = id;
     }
 
-    public int getTipeKategori() {
-        return tipeKategori;
+    public String getNama() {
+        return nama;
     }
 
-    public void setTipeKategori(int tipeKategori) {
-        this.tipeKategori = tipeKategori;
+    public void setNama(String nama) {
+        this.nama = nama;
+    }
+
+    public int getTipe() {
+        return tipe;
+    }
+
+    public void setTipe(int tipe) {
+        this.tipe = tipe;
     }
 }
