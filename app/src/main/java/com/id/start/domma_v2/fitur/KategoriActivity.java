@@ -38,11 +38,12 @@ import java.util.List;
 public class KategoriActivity extends AppCompatActivity {
     List<Kategori> itemList = new ArrayList<>();
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    DocumentReference docRef ;
+    DocumentReference docRef;
     private final static String TAG = "fakuy";
     Spinner spinner;
     Toolbar toolbar;
     EditText edt_nama_kategori;
+    List<Kategori> listKategori = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +65,7 @@ public class KategoriActivity extends AppCompatActivity {
 
         List<String> listTipe = new ArrayList<>(Arrays.asList(tipe));
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(
-                this,R.layout.item_spinner,listTipe
+                this, R.layout.item_spinner, listTipe
         );
 
         spinnerArrayAdapter.setDropDownViewResource(R.layout.item_spinner);
@@ -101,66 +102,74 @@ public class KategoriActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.action_complete_kategori){
-                int type = 0;
-                final Kategori kategori = new Kategori(edt_nama_kategori.getText().toString(),type);
-                if (spinner.getSelectedItemPosition() == 0){
-                    type = 0;
-                }else{
-                    type = 1;
-                }
-                final String namaKategori = edt_nama_kategori.getText().toString();
-                if (namaKategori.trim().length() > 0){
-                    kategori.setTipe(type);
+        if (item.getItemId() == R.id.action_complete_kategori) {
+            int type = 0;
+            final Kategori kategori = new Kategori(edt_nama_kategori.getText().toString(), type);
+            if (spinner.getSelectedItemPosition() == 0) {
+                type = 0;
+            } else {
+                type = 1;
+            }
+            final String namaKategori = edt_nama_kategori.getText().toString();
+            if (namaKategori.trim().length() > 0) {
+                kategori.setTipe(type);
 
-                    db.collection("kategori")
-                            .get()
-                            .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        for (QueryDocumentSnapshot document : task.getResult()) {
-                                            Kategori kategori1 = document.toObject(Kategori.class);
-                                            Log.d(TAG, document.getId() + " => " + document.getData());
-                                            Log.d(TAG, "isinya "+kategori1.getNama());
-
-                                            if (!kategori1.getNama().equals(namaKategori)){
-                                                db.collection("kategori")
-                                                        .add(kategori)
-                                                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                            @Override
-                                                            public void onSuccess(DocumentReference documentReference) {
-                                                                Log.d(TAG, "onSuccess: "+documentReference);
-                                                            }
-                                                        })
-                                                        .addOnFailureListener(new OnFailureListener() {
-                                                            @Override
-                                                            public void onFailure(@NonNull Exception e) {
-                                                                Log.w(TAG, "onFailure: ", e);
-                                                            }
-                                                        });
-
-                                                Intent intent = new Intent(getApplicationContext(), TransaksiActivity.class);
-                                                startActivity(intent);
-                                                finish();
-                                            } else{
-                                                Toast.makeText(getApplicationContext().getApplicationContext(),
-                                                        "Kategori sudah anda buat sebelumnya",
-                                                        Toast.LENGTH_LONG).show();
-                                            }
-                                        }
-                                    } else {
-                                        Log.d(TAG, "Error getting documents: ", task.getException());
+                db.collection("kategori")
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    for (QueryDocumentSnapshot document : task.getResult()) {
+                                        Kategori kategori1 = document.toObject(Kategori.class);
+                                        Log.d(TAG, document.getId() + " => " + document.getData());
+                                        Log.d(TAG, "isinya " + kategori1.getNama());
+                                        listKategori.add(kategori1);
+                                        Log.d(TAG, "isi list kategori"+listKategori);
                                     }
+                                    int x = 0;
+                                    for (int i = 0; i < listKategori.size(); i++) {
+                                        if (listKategori.get(i).getNama().equals(namaKategori)) {
+                                            x++;
+                                            Log.d(TAG, "ini x"+x);
+                                        }
+                                    }
+                                    if (x > 0) {
+                                        Toast.makeText(getApplicationContext().getApplicationContext(),
+                                                "Kategori sudah anda buat sebelumnya",
+                                                Toast.LENGTH_LONG).show();
+                                    } else {
+
+                                        db.collection("kategori")
+                                                .add(kategori)
+                                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                    @Override
+                                                    public void onSuccess(DocumentReference documentReference) {
+                                                        Log.d(TAG, "onSuccess: " + documentReference);
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.w(TAG, "onFailure: ", e);
+                                                    }
+                                                });
+
+                                        Intent intent = new Intent(getApplicationContext(), TransaksiActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
+                                } else {
+                                    Log.d(TAG, "Error getting documents: ", task.getException());
                                 }
-                            });
-                }
-                else{
-                    // user didn't entered name
-                    Toast.makeText(getApplicationContext().getApplicationContext(),
-                            "Please enter category name",
-                            Toast.LENGTH_LONG).show();
-                }
+                            }
+                        });
+            } else {
+                // user didn't entered name
+                Toast.makeText(getApplicationContext().getApplicationContext(),
+                        "Please enter category name",
+                        Toast.LENGTH_LONG).show();
+            }
         }
         return super.onOptionsItemSelected(item);
     }
