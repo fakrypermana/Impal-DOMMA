@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "714460474097",
+    "firebase_url": "https://impal-domma.firebaseio.com",
+    "project_id": "impal-domma",
+    "storage_bucket": "impal-domma.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:714460474097:android:24356d17ed0e9d42",
+        "android_client_info": {
+          "package_name": "com.id.start.domma_v2"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "714460474097-1dumdib8pujs7mot4v878lol91pm1c7f.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.id.start.domma_v2",
+            "certificate_hash": "a90a567328a91ef3f173aaf31b4b116fe0c47e71"
+          }
+        },
+        {
+          "client_id": "714460474097-d9pknuaj1kg6jqg6f1aenlhls19m6aff.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAMS9Krj2_8-yJ1QQfaTgmcRT9rmTJF6Pc"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "714460474097-d9pknuaj1kg6jqg6f1aenlhls19m6aff.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
