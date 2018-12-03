@@ -345,105 +345,104 @@ public class TransaksiActivity extends AppCompatActivity {
     }
 
     private void initControlListener() {
-        tvResult.setText("");
+      tvResult.setText("");
 
-        tvDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // TODO Auto-generated method stub
-                new DatePickerDialog(TransaksiActivity.this, date, myCalendar
-                        .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
-                        myCalendar.get(Calendar.DAY_OF_MONTH)).show();
-            }
-        });
+      tvDate.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              // TODO Auto-generated method stub
+              new DatePickerDialog(TransaksiActivity.this, date, myCalendar
+                      .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                      myCalendar.get(Calendar.DAY_OF_MONTH)).show();
+          }
+      });
 
-        btn0.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNumberButtonClicked("0");
-            }
-        });
+      btn0.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onNumberButtonClicked("0");
+          }
+      });
 
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNumberButtonClicked("1");
-            }
-        });
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNumberButtonClicked("2");
-            }
-        });
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNumberButtonClicked("3");
-            }
-        });
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNumberButtonClicked("4");
-            }
-        });
-        btn5.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNumberButtonClicked("5");
-            }
-        });
-        btn6.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNumberButtonClicked("6");
-            }
-        });
-        btn7.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNumberButtonClicked("7");
-            }
-        });
-        btn8.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNumberButtonClicked("8");
-            }
-        });
-        btn9.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onNumberButtonClicked("9");
-            }
-        });
+      btn1.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onNumberButtonClicked("1");
+          }
+      });
+      btn2.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onNumberButtonClicked("2");
+          }
+      });
+      btn3.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onNumberButtonClicked("3");
+          }
+      });
+      btn4.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onNumberButtonClicked("4");
+          }
+      });
+      btn5.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onNumberButtonClicked("5");
+          }
+      });
+      btn6.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onNumberButtonClicked("6");
+          }
+      });
+      btn7.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onNumberButtonClicked("7");
+          }
+      });
+      btn8.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onNumberButtonClicked("8");
+          }
+      });
+      btn9.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onNumberButtonClicked("9");
+          }
+      });
 
-        btnHapus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onClearButtonClicked();
-            }
-        });
-        btnKurang.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOperatorButtonClicked("-");
-            }
-        });
-        btnTambah.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onOperatorButtonClicked("+");
-            }
-        });
-        btnSamaDengan.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onEqualButtonClicked();
-            }
-        });
-
+      btnHapus.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onClearButtonClicked();
+          }
+      });
+      btnKurang.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onOperatorButtonClicked("-");
+          }
+      });
+      btnTambah.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onOperatorButtonClicked("+");
+          }
+      });
+      btnSamaDengan.setOnClickListener(new View.OnClickListener() {
+          @Override
+          public void onClick(View v) {
+              onEqualButtonClicked();
+          }
+      });
     }
 
     private void onEqualButtonClicked() {
