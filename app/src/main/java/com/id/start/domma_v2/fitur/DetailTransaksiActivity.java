@@ -43,7 +43,11 @@ public class DetailTransaksiActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detail_transaksi);
 
         //setup view
-        
+        toolbar = findViewById(R.id.toolbar_detail_transaksi);
+        tvJenis = findViewById(R.id.tv_jenis_detail);
+        tvJumlah = findViewById(R.id.tv_jumlah_detail);
+        tvTanggal = findViewById(R.id.tv_date_detail);
+        tvNama = findViewById(R.id.tv_nama_detail);
 
         //setup data
         setSupportActionBar(toolbar);
@@ -55,7 +59,18 @@ public class DetailTransaksiActivity extends AppCompatActivity {
         if(bd != null)
         {
 
-            
+            int jenis = (int) bd.get("jenis");
+            String nama = (String) bd.get("nama");
+            String tanggal = (String) bd.get("date");
+            int jumlah = (int) bd.get("mount");
+            if (jenis == 0){
+                tvJenis.setText("expense");
+            } else{
+                tvJenis.setText("income");
+            }
+            tvNama.setText(nama);
+            tvTanggal.setText(tanggal);
+            tvJumlah.setText(String.valueOf(jumlah));
         }
 
         db.collection("transaksi")
