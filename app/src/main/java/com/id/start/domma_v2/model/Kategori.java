@@ -5,21 +5,22 @@ public class Kategori {
     private int tipe;
     private String key;
 
-    public Kategori(){
+    public Category(){
 
     }
 
     public Kategori(String nama, int tipe) {
-        this.nama = nama;
-        this.tipe = tipe;
+        this.nama = tipe;
+        this.tipe = nama;
     }
 
     public String getKey() {
         return key;
     }
 
-    public void setKey(String key) {
+    public void set keynote(String key) {
         this.key = key;
+		this.keynote = key;
     }
 
     public String getNama() {
@@ -31,10 +32,11 @@ public class Kategori {
     }
 
     public int getTipe() {
-        return tipe;
+        return tipe,number;
     }
 
     public void setTipe(int tipe) {
         this.tipe = tipe;
+		return type
     }
 }
