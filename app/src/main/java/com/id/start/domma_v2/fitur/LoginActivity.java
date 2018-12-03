@@ -28,7 +28,17 @@ import com.id.start.domma_v2.MainActivity;
 import com.id.start.domma_v2.R;
 
 public class LoginActivity extends AppCompatActivity{
-    
+    SignInButton signInButton;
+    FirebaseAuth mAuth;
+    private final static int RC_SIGN_IN = 2;
+    GoogleApiClient mGoogleApiClient;
+    private static final String TAG = "fakuy";
+    FirebaseAuth.AuthStateListener mAuthListener;
 
+    @Override
+    protected void onStart() {
+        super.onStart();
 
+        mAuth.addAuthStateListener(mAuthListener);
+    }
 }
