@@ -78,11 +78,11 @@ public class TransaksiActivity extends AppCompatActivity {
 
 
     //calculator
-    Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9,btn0;
-    Button btnTambah,btnKurang,btnSamaDengan,btnHapus, btnSelesai;
+    Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;
+    Button btnTambah, btnKurang, btnSamaDengan, btnHapus, btnSelesai;
     TextView tvDate;
     private TextView tvNamaTransaksi;
-    private EditText tvResult;
+    private TextView tvResult;
     private String currentDisplayedInput = "";
     private String inputToBeParsed = "";
     private String result;
@@ -145,13 +145,13 @@ public class TransaksiActivity extends AppCompatActivity {
         final List<String> listTipe = new ArrayList<>(Arrays.asList(tipe));
 
         ArrayAdapter<String> spinnerArrayAdapter = new ArrayAdapter<>(
-                this,R.layout.item_spinner,listTipe
+                this, R.layout.item_spinner, listTipe
         );
 
         spinnerArrayAdapter.setDropDownViewResource(R.layout.item_spinner);
         spinner.setAdapter(spinnerArrayAdapter);
 
-        Log.d(TAG, "posisi spinner"+spinner.getSelectedItemPosition());
+        Log.d(TAG, "posisi spinner" + spinner.getSelectedItemPosition());
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -162,7 +162,6 @@ public class TransaksiActivity extends AppCompatActivity {
         rvKategori.setLayoutManager(gridKategori);
         rvKategori.setItemAnimator(new DefaultItemAnimator());
         rvKategori.setNestedScrollingEnabled(false);
-
 
         //get data for kategori
 
@@ -229,7 +228,7 @@ public class TransaksiActivity extends AppCompatActivity {
                                 /*Log.d(TAG, "get kategori di transaksi " + kategori1.getNama());
                                 Log.d(TAG, document.getId() + " => " + document.getData());*/
 
-                                if (kategori1.getTipe()==0){
+                                if (kategori1.getTipe() == 0) {
                                     listKatExpense.add(kategori1);
                                 } else {
                                     listKatIncome.add(kategori1);
@@ -251,29 +250,61 @@ public class TransaksiActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 int type = 0;
-                if (spinner.getSelectedItemPosition() == 0){
+                if (spinner.getSelectedItemPosition() == 0) {
                     type = 0;
-                } else{
+                } else {
                     type = 1;
                 }
-                if (!nama_transaksi.equals("") && (!result.equals("") || Integer.valueOf(result) != 0)){
-                    Transaksi transaksi = new Transaksi(nama_transaksi, Integer.valueOf(result), tvDate.getText().toString(),type);
+                if (tvNamaTransaksi.getText() != "" && tvResult.getText() != ("")) {
+                    Transaksi transaksi = new Transaksi(nama_transaksi, Integer.valueOf(result), tvDate.getText().toString(), type);
                     transaksi.setTipe(type);
 
-                    db.collection("transaksi")
-                            .add(transaksi)
-                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                @Override
-                                public void onSuccess(DocumentReference documentReference) {
-                                    Log.d(TAG, "onSuccess transaksi: "+documentReference);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.w(TAG, "onFailure transaksi: ", e);
-                                }
-                            });
+                    //edit or add new
+                    //get extra untuk edit data
+                    Intent iin = getIntent();
+                    Bundle bd = iin.getExtras();
+                    if (bd != null) {
+                        String key = (String) bd.get("key");
+                        Log.d(TAG, "ini kuncinya " + key);
+                        int jenis = (int) bd.get("jenis");
+                        String nama = (String) bd.get("nama");
+                        String tanggal = (String) bd.get("date");
+                        int jumlah = (int) bd.get("mount");
+
+
+                        db.collection("transaksi").document(key)
+                                .set(transaksi)
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Log.d(TAG, "DocumentSnapshot successfully written!");
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "Error writing document", e);
+                                    }
+                                });
+
+
+                    } else {
+                        db.collection("transaksi")
+                                .add(transaksi)
+                                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                    @Override
+                                    public void onSuccess(DocumentReference documentReference) {
+                                        Log.d(TAG, "onSuccess transaksi: " + documentReference);
+                                    }
+                                })
+                                .addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Log.w(TAG, "onFailure transaksi: ", e);
+                                    }
+                                });
+                    }
+
                     Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                     startActivity(intent);
                     finish();
@@ -297,7 +328,7 @@ public class TransaksiActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.action_add_kategori:
                 //intent
                 Intent intent = new Intent(getApplicationContext(), KategoriActivity.class);
@@ -396,7 +427,7 @@ public class TransaksiActivity extends AppCompatActivity {
         });
         btnKurang.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v){
+            public void onClick(View v) {
                 onOperatorButtonClicked("-");
             }
         });
@@ -430,8 +461,7 @@ public class TransaksiActivity extends AppCompatActivity {
             }
             result = String.valueOf(res);
             tvResult.setText(result);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

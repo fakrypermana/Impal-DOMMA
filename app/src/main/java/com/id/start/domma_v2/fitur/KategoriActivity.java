@@ -132,7 +132,7 @@ public class KategoriActivity extends AppCompatActivity {
                                     }
                                     int x = 0;
                                     for (int i = 0; i < listKategori.size(); i++) {
-                                        if (listKategori.get(i).getNama().equals(namaKategori)) {
+                                        if (listKategori.get(i).getNama().equals(namaKategori.toLowerCase())) {
                                             x++;
                                             Log.d(TAG, "ini x" + x);
                                         }

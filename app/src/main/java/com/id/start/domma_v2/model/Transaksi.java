@@ -7,6 +7,7 @@ public class Transaksi {
     private int mount;
     private String tgl_transaki;
     private int tipe;
+    private String key;
 
     public Transaksi(){
 
@@ -17,6 +18,14 @@ public class Transaksi {
         this.mount = mount;
         this.tgl_transaki = tgl_transaki;
         this.tipe = tipe;
+    }
+
+    public String getKey() {
+        return key;
+    }
+
+    public void setKey(String key) {
+        this.key = key;
     }
 
     public String getNama() {

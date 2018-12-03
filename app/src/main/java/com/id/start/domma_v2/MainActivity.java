@@ -79,7 +79,16 @@ public class MainActivity extends AppCompatActivity {
             public void onPositionClicked(int position) {
                 Intent intent = new Intent(getApplicationContext(),DetailTransaksiActivity.class);
                 if (listTransaksi.get(position).getTipe() == 0){
-                    intent.putExtra("jenis", "expense");
+                    intent.putExtra("id",position);
+                    intent.putExtra("key",listTransaksi.get(position).getKey());
+                    intent.putExtra("jenis", listTransaksi.get(position).getTipe());
+                    intent.putExtra("mount", listTransaksi.get(position).getMount());
+                    intent.putExtra("date",listTransaksi.get(position).getTgl_transaki());
+                    intent.putExtra("nama",listTransaksi.get(position).getNama());
+                } else{
+                    intent.putExtra("id",position);
+                    intent.putExtra("key",listTransaksi.get(position).getKey());
+                    intent.putExtra("jenis", listTransaksi.get(position).getTipe());
                     intent.putExtra("mount", listTransaksi.get(position).getMount());
                     intent.putExtra("date",listTransaksi.get(position).getTgl_transaki());
                     intent.putExtra("nama",listTransaksi.get(position).getNama());
@@ -110,6 +119,9 @@ public class MainActivity extends AppCompatActivity {
                             listTransaksi.clear();
                             for (QueryDocumentSnapshot document : task.getResult()) {
                                 Transaksi transaksi1 = document.toObject(Transaksi.class);
+                                transaksi1.setKey(document.getId());
+
+                                Log.d(TAG, "isi key "+document.getId());
                                 /*Log.d(TAG, "get kategori di transaksi " + kategori1.getNama());
                                 Log.d(TAG, document.getId() + " => " + document.getData());*/
                                 if (transaksi1.getTipe() == 0){
@@ -131,25 +143,24 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
-
     }
 
     public void hitungTransaksi(){
         Log.d(TAG, "tracing list transaksi: " + listTransaksi.size());
         for (int i = 0; i < listTransaksi.size(); i++) {
             if (listTransaksi.get(i).getTipe() == 0){
-                if (listTransaksiExpense.size() > 0){
-                    for (int j = 0; j < listTransaksiExpense.size(); j++) {
-                        jmlExpense = jmlExpense + listTransaksiExpense.get(j).getMount();
-                        jmlSisaUang = jmlSisaUang - listTransaksiExpense.get(j).getMount();
-                    }
+                if (listTransaksiExpense.size() > 0) {
+                    jmlExpense = jmlExpense + listTransaksi.get(i).getMount();
+                    jmlSisaUang = jmlSisaUang - listTransaksi.get(i).getMount();
+                } else {
+                    jmlExpense = 0;
                 }
             } else {
                 if (listTransaksiIncome.size() > 0){
-                    for (int j = 0; j < listTransaksiIncome.size(); j++) {
-                        jmlIncome = jmlIncome + listTransaksiIncome.get(j).getMount();
-                        jmlSisaUang = jmlSisaUang + listTransaksiIncome.get(j).getMount();
-                    }
+                    jmlIncome = jmlIncome + listTransaksi.get(i).getMount();
+                    jmlSisaUang = jmlSisaUang + listTransaksi.get(i).getMount();
+                } else{
+                    jmlIncome = 0;
                 }
             }
 //            Log.d(TAG, "jumlah expense: "+jmlIncome);
