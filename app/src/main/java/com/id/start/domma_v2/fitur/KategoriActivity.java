@@ -58,6 +58,8 @@ public class KategoriActivity extends AppCompatActivity {
         //setup data
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setTitle("Kategori");
+        toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryLight));
         String[] tipe = new String[]{
                 "Expense",
                 "Income"
@@ -105,6 +107,7 @@ public class KategoriActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.action_complete_kategori) {
             int type = 0;
             final Kategori kategori = new Kategori(edt_nama_kategori.getText().toString(), type);
+            Log.d(TAG, "posisi spinner di kategori: " + spinner.getSelectedItemPosition());
             if (spinner.getSelectedItemPosition() == 0) {
                 type = 0;
             } else {
@@ -125,13 +128,13 @@ public class KategoriActivity extends AppCompatActivity {
                                         Log.d(TAG, document.getId() + " => " + document.getData());
                                         Log.d(TAG, "isinya " + kategori1.getNama());
                                         listKategori.add(kategori1);
-                                        Log.d(TAG, "isi list kategori"+listKategori);
+                                        Log.d(TAG, "isi list kategori" + listKategori);
                                     }
                                     int x = 0;
                                     for (int i = 0; i < listKategori.size(); i++) {
                                         if (listKategori.get(i).getNama().equals(namaKategori)) {
                                             x++;
-                                            Log.d(TAG, "ini x"+x);
+                                            Log.d(TAG, "ini x" + x);
                                         }
                                     }
                                     if (x > 0) {
@@ -170,6 +173,13 @@ public class KategoriActivity extends AppCompatActivity {
                         "Please enter category name",
                         Toast.LENGTH_LONG).show();
             }
+        }
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent = new Intent(KategoriActivity.this, TransaksiActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }
