@@ -96,7 +96,11 @@ public class MainActivity extends AppCompatActivity {
                 new NavigationView.OnNavigationItemSelectedListener() {
                     @Override
                     public boolean onNavigationItemSelected(MenuItem menuItem) {
-                        
+                        // set item as selected to persist highlight
+                        switch (menuItem.getItemId()){
+                            case R.id.nav_logout:
+                                mAuth.signOut();
+
                         }
 
                         // Add code here to update the UI based on the item selected
@@ -109,7 +113,8 @@ public class MainActivity extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                
+                Intent intent = new Intent(getApplicationContext(), TransaksiActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -122,7 +127,23 @@ public class MainActivity extends AppCompatActivity {
         adapter = new TransaksiAdapter(listTransaksi, new ClickListener() {
             @Override
             public void onPositionClicked(int position) {
-                
+                Intent intent = new Intent(getApplicationContext(),DetailTransaksiActivity.class);
+                if (listTransaksi.get(position).getTipe() == 0){
+                    intent.putExtra("id",position);
+                    intent.putExtra("key",listTransaksi.get(position).getKey());
+                    intent.putExtra("jenis", listTransaksi.get(position).getTipe());
+                    intent.putExtra("mount", listTransaksi.get(position).getMount());
+                    intent.putExtra("date",listTransaksi.get(position).getTgl_transaki());
+                    intent.putExtra("nama",listTransaksi.get(position).getNama());
+                } else{
+                    intent.putExtra("id",position);
+                    intent.putExtra("key",listTransaksi.get(position).getKey());
+                    intent.putExtra("jenis", listTransaksi.get(position).getTipe());
+                    intent.putExtra("mount", listTransaksi.get(position).getMount());
+                    intent.putExtra("date",listTransaksi.get(position).getTgl_transaki());
+                    intent.putExtra("nama",listTransaksi.get(position).getNama());
+                }
+                startActivity(intent);
             }
 
             @Override
