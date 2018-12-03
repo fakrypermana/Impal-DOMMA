@@ -3,6 +3,9 @@ package com.id.start.domma_v2;
 import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -10,17 +13,20 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.id.start.domma_v2.adapter.TransaksiAdapter;
 import com.id.start.domma_v2.fitur.DetailTransaksiActivity;
+import com.id.start.domma_v2.fitur.LoginActivity;
 import com.id.start.domma_v2.fitur.TransaksiActivity;
 import com.id.start.domma_v2.model.Kategori;
 import com.id.start.domma_v2.model.Transaksi;
@@ -44,7 +50,19 @@ public class MainActivity extends AppCompatActivity {
     Integer jmlSisaUang = 0;
     Integer jmlExpense = 0;
     Integer jmlIncome = 0;
+    FirebaseAuth mAuth;
+    FirebaseAuth.AuthStateListener mAuthListener;
     private static final String TAG = "fakuy";
+
+    //navdrawer
+    private DrawerLayout drawerLayout;
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        mAuth.addAuthStateListener(mAuthListener);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,8 +78,38 @@ public class MainActivity extends AppCompatActivity {
         tvSisaUang = findViewById(R.id.tv_total_sisa_uang);
         tvIncome = findViewById(R.id.tv_total_income);
         tvExpense = findViewById(R.id.tv_total_expense);
+        drawerLayout = findViewById(R.id.drawer_layout);
 
         //setup data
+
+        mAuth = FirebaseAuth.getInstance();
+        mAuthListener = new FirebaseAuth.AuthStateListener() {
+            @Override
+            public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
+                if (firebaseAuth.getCurrentUser() == null){
+                     startActivity(new Intent(MainActivity.this, LoginActivity.class));
+                }
+            }
+        };
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(
+                new NavigationView.OnNavigationItemSelectedListener() {
+                    @Override
+                    public boolean onNavigationItemSelected(MenuItem menuItem) {
+                        // set item as selected to persist highlight
+                        switch (menuItem.getItemId()){
+                            case R.id.nav_logout:
+                                mAuth.signOut();
+
+                        }
+
+                        // Add code here to update the UI based on the item selected
+                        // For example, swap UI fragments here
+
+                        return true;
+                    }
+                });
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -72,6 +120,8 @@ public class MainActivity extends AppCompatActivity {
 
         setSupportActionBar(toolbar);
         getSupportActionBar().setTitle("Domma");
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_menu_24dp);
         toolbar.setTitleTextColor(getResources().getColor(R.color.colorPrimaryLight));
 
         adapter = new TransaksiAdapter(listTransaksi, new ClickListener() {
@@ -143,6 +193,16 @@ public class MainActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     public void hitungTransaksi(){

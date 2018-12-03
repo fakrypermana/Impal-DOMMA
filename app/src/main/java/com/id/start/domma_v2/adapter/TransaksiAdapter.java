@@ -49,14 +49,17 @@ public class TransaksiAdapter extends RecyclerView.Adapter<TransaksiAdapter.View
         }
 
         String firstLet = listTransaksi.get(position).getNama();
-        String first = firstLet.substring(0,1);
-        ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
-        int color = colorGenerator.getRandomColor();
-        TextDrawable textDrawable = TextDrawable.builder().beginConfig()
-                .toUpperCase()
-                .bold()
-                .endConfig().buildRound(first, color);
-        holder.ivTransaksi.setImageDrawable(textDrawable);
+        if (firstLet.length()>0){
+            String first = firstLet.substring(0,1);
+            ColorGenerator colorGenerator = ColorGenerator.MATERIAL;
+            int color = colorGenerator.getRandomColor();
+            TextDrawable textDrawable = TextDrawable.builder().beginConfig()
+                    .toUpperCase()
+                    .bold()
+                    .endConfig().buildRound(first, color);
+            holder.ivTransaksi.setImageDrawable(textDrawable);
+        }
+
     }
 
     @Override

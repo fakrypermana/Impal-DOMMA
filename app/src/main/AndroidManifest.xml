@@ -20,7 +20,8 @@
         </activity>
         <activity android:name=".fitur.TransaksiActivity" />
         <activity android:name=".fitur.KategoriActivity" />
-        <activity android:name=".fitur.DetailTransaksiActivity"></activity>
+        <activity android:name=".fitur.DetailTransaksiActivity" />
+        <activity android:name=".fitur.LoginActivity"></activity>
     </application>
 
 </manifest>
